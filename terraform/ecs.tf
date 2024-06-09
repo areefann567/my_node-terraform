@@ -1,13 +1,12 @@
 resource "aws_ecs_cluster" "ecs" {
-  name = "app_cluster"
+  name = "app-cluster"
 }
 
 resource "aws_ecs_service" "service" {
-  name = "app_service"
-  cluster                = aws_ecs_cluster.ecs.arn
-  launch_type            = "FARGATE"
+  name                    = "app-service"
+  cluster                 = aws_ecs_cluster.ecs.arn
+  launch_type             = "FARGATE"
   enable_execute_command = true
-
   deployment_maximum_percent         = 200
   deployment_minimum_healthy_percent = 100
   desired_count                      = 1
@@ -23,12 +22,12 @@ resource "aws_ecs_service" "service" {
 resource "aws_ecs_task_definition" "td" {
   container_definitions = jsonencode([
     {
-      name         = "app"
-      image        = "***.dkr.ecr.us-east-2.amazonaws.com/app_repo"
-      cpu          = 256
-      memory       = 512
-      essential    = true
-      portMappings = [
+      name           = "app"
+      image          = "255975463422.dkr.ecr.ap-south-1.amazonaws.com/app_repo"
+      cpu            = 256
+      memory         = 512
+      essential      = true
+      portMappings   = [
         {
           containerPort = 80
           hostPort      = 80
@@ -38,10 +37,9 @@ resource "aws_ecs_task_definition" "td" {
   ])
   family                   = "app"
   requires_compatibilities = ["FARGATE"]
-
-  cpu                = "256"
-  memory             = "512"
-  network_mode       = "awsvpc"
-  task_role_arn      = "arn:aws:iam::***:role/ecsTaskExecutionRole"
-  execution_role_arn = "arn:aws:iam::***:role/ecsTaskExecutionRole"
+  cpu                      = "256"
+  memory                   = "512"
+  network_mode             = "awsvpc"
+  task_role_arn            = "arn:aws:iam::255975463422:role/ecsTaskExecutionRole"
+  execution_role_arn       = "arn:aws:iam::255975463422:role/ecsTaskExecutionRole"
 }
